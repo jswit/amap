@@ -39,7 +39,7 @@ export default {
                 center: this.center || null,
                 zoom: this.zoom,
                 zooms: this.zooms,
-                mapStyle: "amap://styles/" + this.mapStyle || "normal",
+                mapStyle: this.mapStyle || "amap://styles/normal",
                 features: this.features || ['bg', 'point', 'road', 'building'],
                 resizeEnable: this.resizeEnable || true,
             }
