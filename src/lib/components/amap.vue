@@ -36,7 +36,7 @@ export default {
             let AMap = this.AMap = window.AMap
             
             let mapConfig = {
-                center: this.center || [],
+                center: this.center || null,
                 zoom: this.zoom,
                 zooms: this.zooms,
                 mapStyle: "amap://styles/" + this.mapStyle || "normal",
