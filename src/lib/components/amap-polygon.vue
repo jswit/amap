@@ -24,7 +24,6 @@ export default {
         'strokeStyle',
         'draggable',
         'bubble',
-        'events',
     ],
     muonted() {
         
@@ -53,17 +52,36 @@ export default {
         },
         polygon () {
             let self = this;
-            if(typeof self.events != 'undefined'){
-                let events = Object.entries(self.events);
-                for( event of events ){
-                    self.polygon.on(event[0], event[1]);
-                }
-                return false;
-            }
-
             self.polygon.on('click', function(){
-                self.$parent.$$setFitView(self.polygon);                
-            })
+                self.$emit('click', self);
+            });
+            self.polygon.on('dblclick', function(){
+                self.$emit('dblclick', self);
+            });
+            self.polygon.on('mouseover', function(){
+                self.$emit('mouseover', self);
+            });
+            self.polygon.on('mouseout', function(){
+                self.$emit('mouseout', self);
+            });
+            self.polygon.on('rightclick', function(){
+                self.$emit('rightclick', self);
+            });
+            self.polygon.on('mousedown', function(){
+                self.$emit('mousedown', self);
+            });
+            self.polygon.on('mouseup', function(){
+                self.$emit('mouseup', self);
+            });
+            self.polygon.on('touchstart', function(){
+                self.$emit('touchstart', self);
+            });
+            self.polygon.on('touchmove', function(){
+                self.$emit('touchmove', self);
+            });
+            self.polygon.on('touchend', function(){
+                self.$emit('touchend', self);
+            });
         }
     },
     
@@ -103,7 +121,7 @@ export default {
                 break;
             }
             this.polygon.setOptions(options);
-        }
+        },
     }
 }
 </script>

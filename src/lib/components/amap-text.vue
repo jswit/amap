@@ -30,7 +30,6 @@ export default {
         'title',
         'clickable',
         'textStyle',
-        'events',
 
     ],
     muonted () {
@@ -63,21 +62,42 @@ export default {
             };
             let text = new this.$parent.AMap.Text(options)
             text.setMap(this.$parent.mapObj);
-
-            if(typeof this.events === 'undefined'){
-                this.textMarker = text;
-                return false;
-            }
-
-            let events = Object.entries(this.events);
-            for( event of events ){
-                text.on(event[0], event[1]);
-            }
-
+            
+            this.textMarker = text;
         },
 
         textMarker () {
-            
+            let self = this;
+            self.textMarker.on('click', function(){
+                self.$emit('click', self);
+            });
+            self.textMarker.on('dblclick', function(){
+                self.$emit('dblclick', self);
+            });
+            self.textMarker.on('mouseover', function(){
+                self.$emit('mouseover', self);
+            });
+            self.textMarker.on('mouseout', function(){
+                self.$emit('mouseout', self);
+            });
+            self.textMarker.on('rightclick', function(){
+                self.$emit('rightclick', self);
+            });
+            self.textMarker.on('mousedown', function(){
+                self.$emit('mousedown', self);
+            });
+            self.textMarker.on('mouseup', function(){
+                self.$emit('mouseup', self);
+            });
+            self.textMarker.on('touchstart', function(){
+                self.$emit('touchstart', self);
+            });
+            self.textMarker.on('touchmove', function(){
+                self.$emit('touchmove', self);
+            });
+            self.textMarker.on('touchend', function(){
+                self.$emit('touchend', self);
+            });
         }
         
         
