@@ -9,61 +9,117 @@ export default {
             textMarker : null
         }
     },
-    props : [
-        'topWhenClick',
-        'bubble',
-        'autoRotation',
-        'extData',
-        'text',
-        'textAlign',
-        'verticalAlign',
-        'position',
-        'offset',
-        'draggable',
-        'raiseOnDrag',
-        'cursor',
-        'visible',
-        'zIndex',
-        'angle',
-        'animation',
-        'shadow',
-        'title',
-        'clickable',
-        'textStyle',
-
-    ],
-    muonted () {
-        
+    props : {
+        topWhenClick : {
+            type : Boolean,
+            required : false,
+            default : false
+        },
+        bubble : {
+            type : Boolean,
+            required : false,
+            default : false
+        },
+        autoRotation : {
+            type : Boolean,
+            required : false,
+            default : false
+        },
+        extData : {
+            type : [Number, String, Array, Object, Boolean, Function],
+            required : false
+        },
+        text : {
+            type : String,
+            required : true,
+            default : ""
+        },
+        textAlign : {
+            type : String,
+            required : false,
+            default : "center"
+        },
+        verticalAlign : {
+            type : String,
+            required : false,
+            default : "middle"
+        },
+        position : {
+            type : [Array, Object, String],
+            required : false
+        },
+        offset : {
+            type : Object,
+            required : false,
+            default : () => {
+                return {x:0,y:0}
+            }
+        },
+        draggable : {
+            type : Boolean,
+            required : false,
+            default : false
+        },    
+        raiseOnDrag : {
+            type : Boolean,
+            required : false,
+            default : false
+        },    
+        cursor : {
+            type : String,
+            required : false,
+            default : ""
+        },    
+        visible : {
+            type : Boolean,
+            required : false,
+            default : true
+        },
+        zIndex : {
+            type : Number,
+            required : false,
+            default : 100
+        },
+        angle : {
+            type : Number,
+            required : false,
+            default : 0
+        },
+        animation : {
+            type : String,
+            required : false,
+            default : "AMAP_ANIMATION_NONE"
+        },
+        shadow : {
+            type : [Number, String, Array, Object, Boolean, Function],
+            required : false,
+        },
+        title : {
+            type : String,
+            required : false,
+            default : ""
+        },
+        clickable : {
+            type : Boolean,
+            required : false,
+            default : true
+        },
+        textStyle : {
+            type : Object,
+            required : false,
+            default : () => {
+                return {};
+            }
+        }
+    },
+    mounted() {
+        this.initTextMarker()
     },
     watch:{
         '$parent.mapObj' () {
-            let mapObj = this.$parent.mapObj;
-            let options = {
-                topWhenClick : this.topWhenClick || false,
-                bubble : this.bubble || false,
-                autoRotation : this.autoRotation || false,
-                extData : this.extData || null,
-                text : this.text || '',
-                textAlign : this.textAlign || 'center',
-                verticalAlign : this.verticalAlign || 'middle',
-                position : this.position || null,
-                offset : this.offset || {x:0,y:0},
-                draggable : this.draggable || false,
-                raiseOnDrag : this.raiseOnDrag || false,
-                cursor : this.cursor || '',
-                visible : this.visible || true,
-                zIndex : this.zIndex || 100,
-                angle : this.angle || 0,
-                animation : this.animation || "AMAP_ANIMATION_NONE",
-                shadow : this.shadow || null,
-                title : this.title || '',
-                clickable : this.clickable || true,
-                style: this.textStyle || {},
-            };
-            let text = new this.$parent.AMap.Text(options)
-            text.setMap(this.$parent.mapObj);
-            
-            this.textMarker = text;
+            this.initTextMarker();
+        },
+        text(){
         },
 
         textMarker () {
@@ -100,11 +156,39 @@ export default {
             });
         }
         
-        
     },
     
     methods:{
-        
+        initTextMarker(){
+            let mapObj = this.$parent.mapObj;
+            if(!mapObj)return false;
+            let options = {
+                topWhenClick : this.topWhenClick,
+                bubble : this.bubble,
+                autoRotation : this.autoRotation,
+                extData : this.extData,
+                text : this.text,
+                textAlign : this.textAlign,
+                verticalAlign : this.verticalAlign,
+                position : this.position,
+                offset : this.offset,
+                draggable : this.draggable,
+                raiseOnDrag : this.raiseOnDrag,
+                cursor : this.cursor,
+                visible : this.visible,
+                zIndex : this.zIndex,
+                angle : this.angle,
+                animation : this.animation,
+                shadow : this.shadow,
+                title : this.title,
+                clickable : this.clickable,
+                style: this.textStyle,
+            };
+            let text = new this.$parent.AMap.Text(options)
+            text.setMap(this.$parent.mapObj);
+            
+            this.textMarker = text;
+        }
     }
 }
 </script>

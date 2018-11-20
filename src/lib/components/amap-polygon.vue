@@ -12,43 +12,73 @@ export default {
             polygon: null,
         }
     },
-    props : [
-        'path',
-        'zIndex',
-        'strokeColor',
-        'strokeOpacity',
-        'strokeWeight',
-        'fillColor',
-        'fillOpacity',
-        'extData',
-        'strokeStyle',
-        'draggable',
-        'bubble',
-    ],
-    muonted() {
-        
+    props : {
+        path : {
+            type : Array,
+            required : true,
+            default : () => {
+                return [];
+            }
+        },
+        zIndex : {
+            type : Number,
+            required : false,
+            default : 10
+        },
+        strokeColor : {
+            type : String,
+            required : false,
+            default : "#006600"
+        },
+        strokeOpacity : {
+            type : Number,
+            required : false
+        },
+        strokeWeight : {
+            type : Number,
+            required : false,
+            default : 1
+        },
+        strokeStyle : {
+            type : String,
+            required : false,
+            default : "solid"
+        },
+        fillColor : {
+            type : String,
+            required : false,
+            default : ""
+        },
+        fillOpacity : {
+            type : Number,
+            required : false
+        },
+        draggable : {
+            type : Boolean,
+            required : false,
+            default : false
+        },
+        extData : {
+            type : [Number, String, Array, Object, Boolean, Function],
+            required : false
+        },
+        bubble : {
+            type : Boolean,
+            required : false,
+            default : false
+        },
+    },
+    mounted() {
+        this.initPolygon()
+    },
+    updated(){
+        console.log(this.path);
     },
     watch:{
         '$parent.mapObj' () {
-            let mapObj = this.$parent.mapObj;
-            let options = {
-                path: this.path,
-                zIndex: this.zIndex || 10,
-                strokeColor: this.strokeColor || "#006600",
-                strokeOpacity: this.strokeOpacity || 0.9,
-                strokeWeight: this.strokeWeight || 1,
-                strokeStyle: this.strokeStyle || "solid",
-                fillColor: this.fillColor || "",
-                fillOpacity: this.fillOpacity || 0.9,
-                draggable: this.draggable || false,
-                extData: this.extData || null,
-                bubble: this.bubble || false
-            };
-            let polygon = new this.$parent.AMap.Polygon(options)
-            polygon.setMap(this.$parent.mapObj);
-            
-            if(typeof this.$parent.zoom === 'undefined') this.$parent.$$setFitView();
-            this.polygon = polygon;
+            this.initPolygon()
+        },
+        path(){
         },
         polygon () {
             let self = this;
@@ -86,42 +116,32 @@ export default {
     },
     
     methods:{
+        initPolygon(){
+            let mapObj = this.$parent.mapObj;
+            if( !mapObj ) return false;
+            let options = {
+                path : this.path,
+                zIndex : this.zIndex,
+                strokeColor : this.strokeColor,
+                strokeOpacity : this.strokeOpacity,
+                strokeWeight : this.strokeWeight,
+                strokeStyle : this.strokeStyle,
+                fillColor : this.fillColor,
+                fillOpacity : this.fillOpacity,
+                draggable : this.draggable,
+                extData : this.extData,
+                bubble : this.bubble
+            };
+            let polygon = new this.$parent.AMap.Polygon(options)
+            polygon.setMap(this.$parent.mapObj);
+            if(typeof this.$parent.zoom === 'undefined') this.$parent.$$setFitView();
+            this.polygon = polygon;
+        },
+
         drillDown(){
             let self = this;
         },
 
-        setPolygonStyle(type){
-            let options = {};
-            switch(type){
-                case "default" :
-                    options = {
-                        strokeStyle : "solid",
-                        strokeColor : "#3366cc",
-                        strokeOpacity : 1,
-                        strokeWeight : 1,
-                    };
-                break;
-                case "light" :
-                    options = {
-                        strokeStyle : "solid",
-                        strokeColor : "#50E3C2",
-                        strokeOpacity : 1,
-                        strokeWeight : 1,
-                        fillColor: "#50E3C2",
-                        fillOpacity:"0.4"
-                    };
-                break;
-                case "hover" :
-                    options = {
-                        strokeStyle : "dashed",
-                        strokeColor : "#F5A623",
-                        strokeOpacity : 1,
-                        strokeWeight : 4,
-                    };
-                break;
-            }
-            this.polygon.setOptions(options);
-        },
     }
 }
 </script>

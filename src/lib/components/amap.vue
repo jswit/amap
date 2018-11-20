@@ -16,18 +16,133 @@ export default {
             mapObj : null,
         }
     },
-    props : [
-        'vid',
-        'mapKey',
-        'mapVersion',
-        'center',
-        'zoom',
-        'zooms',
-        'mapStyle',
-        'resizeEnable',
-        'features',
-    ],
+    props : {
+        vid : {
+            type : String,
+            require : true
+        },
+        mapKey : {
+            type : String,
+            require : true
+        },
+        mapVersion : {
+            type : String,
+            require : true
+        },
+        center : {
+            type : [Array, String, Object],
+            require : false
+        },
+        zoom : {
+            type : Number,
+            require : false
+        },
+        zooms : {
+            type : Array,
+            require : false
+        },
+        mapStyle : {
+            type : String,
+            require : false,
+            default : "amap://styles/normal"
+        },
+        features : {
+            type : Array,
+            require : false,
+            default : () => {
+                return ['bg', 'point', 'road', 'building'];
+            }
+        },
+        resizeEnable : {
+            type : Boolean,
+            require : false,
+            default : true
+        },
 
+    },
+    watch : {
+        mapObj () {
+            let self = this;
+            self.mapObj.on("complete", function(){
+                self.$emit('complete', self);
+            });
+            self.mapObj.on("click", function(){
+                self.$emit('click', self);
+            });
+            self.mapObj.on("dblclick", function(){
+                self.$emit('dblclick', self);
+            });
+            self.mapObj.on("mapmove", function(){
+                self.$emit('mapmove', self);
+            });
+            self.mapObj.on("hotspotclick", function(){
+                self.$emit('hotspotclick', self);
+            });
+            self.mapObj.on("hotspotover", function(){
+                self.$emit('hotspotover', self);
+            });
+            self.mapObj.on("hotspotout", function(){
+                self.$emit('hotspotout', self);
+            });
+            self.mapObj.on("movestart", function(){
+                self.$emit('movestart', self);
+            });
+            self.mapObj.on("moveend", function(){
+                self.$emit('moveend', self);
+            });
+            self.mapObj.on("zoomchange", function(){
+                self.$emit('zoomchange', self);
+            });
+            self.mapObj.on("zoomstart", function(){
+                self.$emit('zoomstart', self);
+            });
+            self.mapObj.on("zoomend", function(){
+                self.$emit('zoomend', self);
+            });
+            self.mapObj.on("mousemove", function(){
+                self.$emit('mousemove', self);
+            });
+            self.mapObj.on("mousewheel", function(){
+                self.$emit('mousewheel', self);
+            });
+            self.mapObj.on("mouseover", function(){
+                self.$emit('mouseover', self);
+            });
+            self.mapObj.on("mouseout", function(){
+                self.$emit('mouseout', self);
+            });
+            self.mapObj.on("mouseup", function(){
+                self.$emit('mouseup', self);
+            });
+            self.mapObj.on("mousedown", function(){
+                self.$emit('mousedown', self);
+            });
+            self.mapObj.on("rightclick", function(){
+                self.$emit('rightclick', self);
+            });
+            self.mapObj.on("dragstart", function(){
+                self.$emit('dragstart', self);
+            });
+            self.mapObj.on("dragging", function(){
+                self.$emit('dragging', self);
+            });
+            self.mapObj.on("dragend", function(){
+                self.$emit('dragend', self);
+            });
+            self.mapObj.on("resize", function(){
+                self.$emit('resize', self);
+            });
+            self.mapObj.on("touchstart", function(){
+                self.$emit('touchstart', self);
+            });
+            self.mapObj.on("touchmove", function(){
+                self.$emit('touchmove', self);
+            });
+            self.mapObj.on("touchend", function(){
+                self.$emit('touchend', self);
+            });
+        } 
+    },
     methods:{
         // 实例化地图
         initMap () {
@@ -36,12 +151,12 @@ export default {
             let AMap = this.AMap = window.AMap
             
             let mapConfig = {
-                center: this.center || null,
+                center: this.center,
                 zoom: this.zoom,
                 zooms: this.zooms,
-                mapStyle: this.mapStyle || "amap://styles/normal",
-                features: this.features || ['bg', 'point', 'road', 'building'],
-                resizeEnable: this.resizeEnable || true,
+                mapStyle: this.mapStyle,
+                features: this.features,
+                resizeEnable: this.resizeEnable,
             }
             this.$nextTick(function(){
                 let elementId = document.getElementById(this.vid);  
@@ -123,7 +238,7 @@ export default {
         },
         $$getAllOverlays(overlays=null){
             return this.mapObj.getAllOverlays(overlays);
-        }
+        },
 
     },
     async created () {
