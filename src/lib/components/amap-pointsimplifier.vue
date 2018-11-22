@@ -118,7 +118,7 @@ export default {
                     },
                     getPosition: function(dataItem) {
                         //返回数据项的经纬度，AMap.LngLat实例或者经纬度数组
-                        return dataItem.position;
+                        return dataItem.point;
                     },
                     getHoverTitle: function(dataItem, idx) {
                         //返回数据项的Title信息，鼠标hover时显示
@@ -160,13 +160,7 @@ export default {
             let data = [];
             
             self.pointData.forEach( function( item, index ) {
-                data.push({
-                    id : item.id,
-                    name : item.name,
-                    color : item.color,
-                    position : item.point,
-                    coordinates : item.coordinates
-                });
+                data.push({ ...item });
             });
             
             self.pointSimplifierIns.setData( data );
