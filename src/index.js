@@ -3,6 +3,7 @@ import amapPolygon from './lib/components/amap-polygon.vue';
 import amapText from './lib/components/amap-text.vue';
 import amapPointsimplifier from './lib/components/amap-pointsimplifier.vue';
 import amapSatellite from './lib/components/amap-satellite.vue';
+import amapHeatmap from './lib/components/amap-heatmap.vue';
 
 let components = [
     amap,
@@ -10,6 +11,7 @@ let components = [
     amapText,
     amapPointsimplifier,
     amapSatellite,
+    amapHeatmap
 ];
 
 let VueAmap = {
